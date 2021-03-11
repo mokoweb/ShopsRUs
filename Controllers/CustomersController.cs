@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopsRUs.Data;
 using ShopsRUs.Model;
+using ShopsRUs.ViewModel;
 
 namespace ShopsRUs.Controllers
 {
@@ -78,8 +79,20 @@ namespace ShopsRUs.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> PostCustomer(CustomerDTO dto)
         {
+            var customer = new Customer()
+            {
+                Address = dto.Address,
+                CUstomerTypeID = dto.CUstomerTypeID,
+                DateCreated = DateTime.Now,
+                Email = dto.Email,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Phone = dto.Phone,
+                Id = Guid.NewGuid()
+            };
+
             _context.Customer.Add(customer);
             await _context.SaveChangesAsync();
 
